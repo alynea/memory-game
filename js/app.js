@@ -24,11 +24,49 @@ function shuffle(array) {
 
     return array;
 }
+function compareCards(){
+    let card1 = currentSelection[0];
+    let card2 = currentSelection[1];
+    if (card1.children[0].className == card2.children[0].className){
+        return true;
+    } else{
+        return false;
+    }    
+}
 
+function handleMatchedCards(){
+    matchingSelection.push(...currentSelection);
+    console.log(matchingSelection);
+    currentSelection = [];
+    console.log(currentSelection);    
+}
 
 /*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
+ * set up the event listener for a card. If a card is clicked:*/
+let allCards = document.querySelectorAll('.card');
+allCards.forEach(card=>{
+    card.addEventListener('click',function(e){
+        e.srcElement.className = 'card open show';        
+        console.log(e.srcElement.children[0].className);
+        currentSelection.push(e.srcElement);
+        if (currentSelection.length == 2){
+            if (compareCards() == true ){
+                handleMatchedCards();
+            }            
+        }
+    });
+    
+});
+let currentSelection = [];
+let matchingSelection = [];
+
+
+
+
+
+
+
+/*  - display the card's symbol (put this functionality in another function that you call from this one)
  *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
  *  - if the list already has another card, check to see if the two cards match
  *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
