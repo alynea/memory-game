@@ -1,28 +1,48 @@
 /*
- * Create a list that holds all of your cards
- */
+ * Create a list that holds all of your cards*/
+let currentSelection = [];
+let matchingSelection = [];
+let moves = 0;
 
+let deck = [];
+deck.push("fa fa-diamond");
+deck.push("fa fa-diamond");
+deck.push("fa fa-paper-plane-o");
+deck.push("fa fa-paper-plane-o");
+deck.push("fa fa-anchor");
+deck.push("fa fa-anchor");
+deck.push("fa fa-bolt");
+deck.push("fa fa-bolt");
+deck.push("fa fa-cube");
+deck.push("fa fa-cube");
+deck.push("fa fa-leaf");
+deck.push("fa fa-leaf");
+deck.push("fa fa-bicycle");
+deck.push("fa fa-bicycle");
+deck.push("fa fa-bomb");
+deck.push("fa fa-bomb");
 
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
-
-// Shuffle function from http://stackoverflow.com/a/2450976
-function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
-
+// Shuffle function from http://stackoverflow.com/a/2450976//
+function shuffle(deck) {
+    var currentIndex = deck.length, temporaryValue, randomIndex;
     while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex -= 1;
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
+        temporaryValue = deck[currentIndex];
+        deck[currentIndex] = deck[randomIndex];
+        deck[randomIndex] = temporaryValue;
     }
+    return deck;
+}
+/*create a new deck*/
+function createNewDeck() {
+    deck.forEach((iconClassName, index) => {
+        let card = document.getElementById(index.toString());
+        card.className = "card";
+        card.children[0].className = iconClassName;
+    });
 
-    return array;
+
 }
 function compareCards() {
     let card1 = currentSelection[0];
@@ -34,7 +54,24 @@ function compareCards() {
     }
 }
 
+function incrementMove() {
+    moves++;
+    document.getElementById("currentMove").innerText = moves;
+}
 
+
+function setStarRating() {
+    console.log(moves)
+    if (moves > 10) {
+        let thirdStar = document.getElementById("star3")
+        thirdStar.children[0].classList.add("star-white");
+    } 
+    if (moves > 20) {
+        let secondStar = document.getElementById("star2")
+        secondStar.children[0].classList.add("star-white");
+
+    }
+}
 
 const delay = ms => new Promise(res => setTimeout(res, ms));
 
@@ -46,76 +83,147 @@ async function handleMatchedCards() {
     currentSelection = [];
     matchingSelection.forEach(card => {
         card.classList.add("match");
-        card.classList.remove("open","show");
+        card.classList.remove("open", "show");
+        goodShake(card);
     });
+
 }
 
 async function handleUnmatchedCards() {
-    await delay(2000);
+    await delay(500);
     currentSelection.forEach(card => {
-        console.log("removing card open show");
+        badShake(card);
+    });
+    await delay(500);
+    currentSelection.forEach(card => {
+
         card.classList.remove("open", "show");
+
     });
     currentSelection = [];
 }
 
-function checkIfCardSelected(sourceElement){
-   
+function badShake(card) {
+    // perform a horizontal shake when the cards match for 1sec//
+    card.classList.add("animated", "wobble");
+
+
+}
+
+function checkIfCardSelected(sourceElement) {
+
     let cardExists = false;
     matchingSelection.forEach(card => {
-        if(card.id == sourceElement.id){
+        if (card.id == sourceElement.id) {
             cardExists = true;
         }
     });
 
     currentSelection.forEach(card => {
-       if(card.id == sourceElement.id){
-           cardExists = true;
-       }
+        if (card.id == sourceElement.id) {
+            cardExists = true;
+        }
     });
     return cardExists;
-    
-
 }
+
+
+function checkTwoCardLimit() {
+    if (currentSelection.length < 2) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+function goodShake(card) {
+    // perform a vertical shake when the cards match for 1sec//
+    card.classList.add("animated", "hop");
+}
+
+function gameDone() {
+    console.log("Game Done")
+    console.log("length of matched card array" + matchingSelection.length)
+    if (matchingSelection.length == 16) {
+        console.log("waiting for pop up")
+        popMessage();
+    }
+    matchingSelection = [];
+}
+function clickButton() {
+    document.getElementById("button").click();
+}
+
+function popMessage() {
+    console.log("popup works")
+    document.getElementById("moves").innerText = moves;
+    document.getElementById("time").innerText = "TBD";
+    clickButton();
+}
+
 
 /*
  * set up the event listener for a card. If a card is clicked:*/
-let allCards = document.querySelectorAll('.card');
-allCards.forEach(card => {
-    card.addEventListener('click', function (e) {
-        
-        console.log(e.srcElement.children[0].className);
+function playGame() {
+    let allCards = document.querySelectorAll('.card');
+    allCards.forEach(card => {
+        card.addEventListener('click', async function (e) {
 
-        if (checkIfCardSelected(e.srcElement) == false){
-            e.srcElement.className = 'card open show';
-            currentSelection.push(e.srcElement);
-        }
-        if (currentSelection.length == 2) {
-            if (compareCards() == true) {
-                handleMatchedCards();
-                console.log(matchingSelection.srcElement);
-            } else {
-                handleUnmatchedCards();
+            console.log(e.srcElement.children[0].className);
+
+            if (checkIfCardSelected(e.srcElement) == false && checkTwoCardLimit() == false) {
+                e.srcElement.className = 'card open show';
+                currentSelection.push(e.srcElement);
             }
-        }
+            if (currentSelection.length == 2) {
+                incrementMove();
+                if (compareCards() == true) {
+                    await handleMatchedCards();
+                    console.log(matchingSelection.srcElement);
+                } else {
+                    await handleUnmatchedCards();
+                }
+            }
+            setStarRating()
+            gameDone();
+        });
     });
 
+
+
+}
+
+let restartElement = document.getElementById('restart');
+restartElement.addEventListener('click', function (evt) {
+    refresh();
+    playGame();
 });
-let currentSelection = [];
-let matchingSelection = [];
 
+function refresh() {
+    console.log('The restart button was clicked');
+    moves = -1;
+    incrementMove();
+    shuffle(deck);
+    createNewDeck();
+}
 
+let modal = document.getElementById("myModal");
+let span = document.getElementsByClassName("close")[0];
+let btn = document.getElementById("button");
 
+btn.onclick = function () {
+    modal.style.display = "block";
+}
 
+span.onclick = function () {
+    modal.style.display = "none";
+}
 
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function (event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
 
-
-/*  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + 
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
+playGame();
