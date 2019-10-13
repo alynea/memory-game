@@ -2,27 +2,23 @@
 
 ## Description
 
-This is a game that tests the users memory. The game has a deck of cards with symbols on the face of the card.
+This is a game that tests the user's memory. The game has a deck of cards with symbols on the face of the card.
 
 ## Challenge
 
-A game that challenges the user to match the cards in the least number of moves and least time.
+This is a  game that challenges the user to match the cards in less times with the least moves.
 
-## Table of Contents
+## How to play
 
-* [Instructions](#instructions)
-* [Contributing](#contributing)
+* Load index.html file in your browser
+* Click on a card
+* Keep revealing cards and working your memory to remember each unveiled card
+* Match cards properly with less moves and in faster time
 
-## Instructions
+## How I created the Game
 
-The starter project has some HTML and CSS styling to display a static version of the Memory Game project. You'll need to convert this project from a static project to an interactive one. This will require modifying the HTML and CSS files, but primarily the JavaScript file.
-
-To get started, open `js/app.js` and start building out the app's functionality
-
-For specific, detailed instructions, look at the project instructions in the [Udacity Classroom](https://classroom.udacity.com/me).
-
-## Contributing
-
-This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
-
-For details, check out [CONTRIBUTING.md](CONTRIBUTING.md).
+* I used HTML for the view, CSS for the styles and JavaScript for the game logic
+    * Manipulated the deck of cards to shuffles when game is refreshed
+    * Set a counter to count the number of moves made by player and timer to know the duration of a play
+    * Added Animation effects effects to cards when they match and are unmatched
+    * Created a pop-up modal when player wins game
