@@ -1,4 +1,12 @@
-# Memory Game Project
+# Memory Game 
+
+## Description
+
+This is a game that tests the users memory. The game has a deck of cards with symbols on the face of the card.
+
+## Challenge
+
+A game that challenges the user to match the cards in the least number of moves and least time.
 
 ## Table of Contents
 
