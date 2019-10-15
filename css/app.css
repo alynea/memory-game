@@ -89,6 +89,8 @@ h1 {
     text-align: left;
     width: 345px;
     margin-bottom: 10px;
+    list-style: none;
+    display: inline-block;
 }
 
 .score-panel .stars {
@@ -98,7 +100,7 @@ h1 {
     margin: 0 5px 0 0;
 }
 
-.score-panel .stars .lessMoves{
+.score-panel  .lessMoves{
     margin: 0;
     padding: 0;
     display: inline-block;
@@ -106,9 +108,17 @@ h1 {
     
 }
 
-.score-panel .stars li {
+.stars{
+    margin: 0;
+    padding: 0;
+    display: inline;
+    margin: 0 5px 0 0;
+}
+
+
+.stars li {
     list-style: none;
-    display: inline-block;
+    display:inline-flex;
 }
 
 .score-panel .restart {
@@ -181,16 +191,17 @@ h1 {
    position: fixed; 
    z-index: 5; 
    padding-top: 200px; 
-   left: 0;
-   top: 0;
-   width: 100%; 
-   height: 100%; 
+   left: 25%;
+   top: 10%;
+   width: 50%; 
+   height: 50%; 
    overflow: auto; 
    
  }
  
  /* Modal Content */
  .modal-content {
+   border-radius: 10px;
    position: relative;
    text-align: center;
    background-color: #fefefe;
@@ -198,7 +209,7 @@ h1 {
    padding: 0;
    border: 1px solid #888;
    width: 90%;
-   box-shadow: 12px 15px 20px 20px rgba(0,0,0,0.2),5px 6px 20px 0 rgba(0,0,0,0.19);
+   box-shadow: 18px 6px 20px 20px rgba(150, 149, 149, 0.2),15px 7px 20px 0 rgba(122, 121, 121, 0.19);
    -webkit-animation-name: animatetop;
    -webkit-animation-duration: 0.4s;
    animation-name: animatetop;
@@ -237,6 +248,8 @@ h1 {
    color: white;
    height: 40px;
    font-size: 70%;
+   border-top-right-radius:8px;
+   border-top-left-radius: 8px;
    
  }
  
@@ -244,7 +257,7 @@ h1 {
  
  
 /* Counter */
-#timer {
+.timer {
     font-size: 15px; 
     text-align: justify;
     font-style: bold;

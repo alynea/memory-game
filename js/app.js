@@ -27,7 +27,7 @@ deck.push("fa fa-bomb");
 
 // Shuffle function from http://stackoverflow.com/a/2450976//
 function shuffle(deck) {
-    var currentIndex = deck.length, temporaryValue, randomIndex;
+    let currentIndex = deck.length, temporaryValue, randomIndex;
     while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex -= 1;
@@ -208,6 +208,7 @@ function popMessage() {
 
     document.getElementById("moves").innerText = moves;
     document.getElementById("time").innerText = displayTime;
+    document.getElementById("starRating").append(document.getElementById("stars"))
     clickButton();
 }
 
@@ -256,11 +257,11 @@ function playGame() {
     let allCards = document.querySelectorAll('.card');
     allCards.forEach(card => {
         card.addEventListener('click', async function (e) {
-
+        
             if (timerStarted == false) {
                 startTimer();
             }
-
+            
             if (checkIfCardSelected(e.srcElement) == false && checkTwoCardLimit() == false) {
                 e.srcElement.className = 'card open show';
                 currentSelection.push(e.srcElement);
@@ -275,6 +276,7 @@ function playGame() {
                     await handleUnmatchedCards();
                 }
             }
+        
             setStarRating()
             gameDone();
         });
@@ -286,21 +288,30 @@ function playGame() {
 
 let restartElement = document.getElementById('restart');
 restartElement.addEventListener('click', function (evt) {
+
     refresh();
-    playGame();
+
 });
 
 // refresh Game//
 function refresh() {
 
     moves = -1;
+
     incrementMove();
     shuffle(deck);
-    createNewDeck();
-    stopTimer()
-
+    createNewDeck();    
     restartTimer();
     resetStars();
+    clearSelections();
+
+}
+
+
+function clearSelections(){
+
+    currentSelection = [];
+    matchingSelection = [];
 }
 
 playGame();
