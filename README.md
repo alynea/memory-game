@@ -14,6 +14,8 @@ This is a  game that challenges the user to match the cards in less time with th
 * Click on a card
 * Keep revealing cards and working your memory to remember each unveiled card
 * Match cards properly with less moves and in faster time
+OR
+* Click the link : https://alynea.github.io/memory-game/index
 
 ## How I created the Game
 
@@ -23,3 +25,4 @@ This is a  game that challenges the user to match the cards in less time with th
     * Set a counter to count the number of moves made by player and timer to know the duration of a play
     * Added Animation effects effects to cards when they match and are unmatched
     * Created a pop-up modal when player wins game
+    
